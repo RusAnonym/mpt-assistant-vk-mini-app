@@ -1,0 +1,33 @@
+@import "./pages/main.scss";
+
+@import "./plugins/fonts.scss";
+
+@import "~@vkontakte/vkui/dist/vkui.css";
+
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+	-webkit-user-select: none;
+	user-select: none;
+}
+input,
+button,
+textarea,
+:focus {
+	outline: none;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+a:not([draggable="true"]),
+img:not([draggable="true"]) {
+	-webkit-user-drag: none;
+}
+a[href^="http://"],
+a[href^="https://"],
+a[href^="ftp://"]
+{
+	-webkit-user-drag: auto;
+}

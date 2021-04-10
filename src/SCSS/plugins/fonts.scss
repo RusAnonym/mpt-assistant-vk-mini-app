@@ -1,0 +1,17 @@
+@mixin font-face($family, $fontname) {
+	@font-face {
+		font-family: $family;
+		src: local("../../Fonts/#{$fontname}/font.eot");
+		src: local("../../Fonts/#{$fontname}/font.eot?#iefix")
+			format("embedded-opentype");
+		src: local("../../Fonts/#{$fontname}/font.woff") format("woff");
+		src: local("../../Fonts/#{$fontname}/font.ttf") format("truetype");
+		src: local(
+				"../../Fonts/#{$fontname}/font.svg#08bb4ba465a902745fc23c83a5d9fdc2"
+			)
+			format("svg");
+		src: local("../../Fonts/#{$fontname}/font.woff2") format("woff2");
+	}
+}
+
+@include font-face(VK_Sans, "../../Fonts/");
