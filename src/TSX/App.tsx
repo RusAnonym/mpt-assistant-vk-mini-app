@@ -13,6 +13,7 @@ import {
 	Panel,
 	PanelHeader,
 	PanelHeaderBack,
+	ScreenSpinner,
 	SplitCol,
 	SplitLayout,
 	Tabbar,
@@ -28,6 +29,10 @@ import MainPage from "./pages/main/main";
 import ProfilePage from "./pages/profile/main";
 import ReplacementPage from "./pages/replacements/main";
 import SchedulePage from "./pages/schedule/main";
+
+import bridge from "@vkontakte/vk-bridge";
+
+import eventsHandler from "../TS/scripts/eventsHandler";
 
 const Pages = [
 	{
@@ -73,16 +78,28 @@ const App: React.FC = () => {
 	const platform = usePlatform();
 	const hasHeader = platform !== VKCOM;
 
-	useEffect(function AppEffectHook() {});
+	useEffect(function AppEffectHook() {
+		eventsHandler(setUserData);
+		bridge.send("VKWebAppGetUserInfo");
+	}, []);
+
+	if (!userData) {
+		return (
+			<ConfigProvider scheme="space_gray" appearance="dark">
+				<AdaptivityProvider>
+					<AppRoot>
+						<ScreenSpinner></ScreenSpinner>
+					</AppRoot>
+				</AdaptivityProvider>
+			</ConfigProvider>
+		);
+	}
 
 	return (
-		<ConfigProvider scheme="space_gray">
+		<ConfigProvider scheme="space_gray" appearance="dark">
 			<AdaptivityProvider>
 				<AppRoot>
-					<SplitLayout
-						header={hasHeader && <PanelHeader separator={false} />}
-						style={{ justifyContent: "center" }}
-					>
+					<SplitLayout header={hasHeader && <PanelHeader separator={false} />}>
 						<SplitCol animate>
 							<Epic
 								activeStory={activeStory}
