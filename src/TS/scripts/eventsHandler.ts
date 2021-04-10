@@ -10,7 +10,7 @@ const eventHandler = (setUserData: (user: IUserData) => void): void => {
 		if (event.detail.type === "VKWebAppGetUserInfoResult") {
 			setUserData({
 				id: event.detail.data.id,
-				sign: window.location.href,
+				sign: window.location.search,
 				fetchedUser: event.detail.data,
 			});
 		}
