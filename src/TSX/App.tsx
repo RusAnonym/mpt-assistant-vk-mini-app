@@ -124,7 +124,7 @@ const App: React.FC = () => {
 											<PanelHeader left={<PanelHeaderBack />}>
 												{page.name}
 											</PanelHeader>
-											{<page.element />}
+											{<page.element user={userData} />}
 										</Panel>
 									</View>
 								))}
