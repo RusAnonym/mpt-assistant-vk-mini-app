@@ -11,19 +11,6 @@ interface Day {
 	lessons: Lesson[];
 }
 
-interface APILesson {
-	num: number;
-	name: [string, string?];
-	teacher: [string, string?];
-}
-
-interface APIDay {
-	num: number;
-	place: string;
-	name: string;
-	lessons: APILesson[];
-}
-
 interface Replacement {
 	date: Date;
 	group: string;
@@ -37,4 +24,6 @@ interface Replacement {
 	hash: string;
 }
 
-export type { Lesson, Day, Replacement, APIDay, APILesson };
+type Week = "Числитель" | "Знаменатель" | "Не определено";
+
+export type { Lesson, Day, Replacement, Week };
