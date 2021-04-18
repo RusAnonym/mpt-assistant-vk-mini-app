@@ -18,10 +18,14 @@ import React, { useState, useEffect } from "react";
 import wrapper from "../../../TS/scripts/wrapper";
 import { Day, Lesson } from "../../../typings/mpt";
 
+import Keyboard from "../../utils/keyboard";
+
 import Params from "../../../typings/params";
 
+moment.locale("ru");
+
 const Main: React.FC<Params> = (params) => {
-	const [selectedDate] = useState<moment.Moment>(moment());
+	const [selectedDate, updateDate] = useState<moment.Moment>(moment());
 	const [selectedSchedule, setSchedule] = useState<Day>();
 	const [isLoad, setLoad] = useState<boolean>(true);
 	const [isError, setErrorStatus] = useState<boolean>(false);
@@ -44,7 +48,9 @@ const Main: React.FC<Params> = (params) => {
 				date: selectedDate.format("DD.MM.YYYY"),
 			});
 			setSchedule(data.response);
+			setErrorStatus(false);
 		} catch (error) {
+			console.log(error);
 			setErrorStatus(true);
 		}
 		setLoad(false);
@@ -58,6 +64,25 @@ const Main: React.FC<Params> = (params) => {
 		return <ScreenSpinner></ScreenSpinner>;
 	}
 
+	if (selectedDate.day() === 0) {
+		return (
+			<Div className="schedule-page">
+				<Title className="title" level="2" weight="medium">
+					Расписание на {selectedDate.format("DD.MM.YYYY")}
+					<br />
+					Выбранный день воскресенье
+				</Title>
+				<Keyboard
+					currentDate={selectedDate}
+					setDate={(date) => {
+						updateDate(date);
+						updateSchedule();
+					}}
+				/>
+			</Div>
+		);
+	}
+
 	if (isError) {
 		return <Div>Произошла ошибка, обратитесь пожалуйста к разработчику</Div>;
 	}
@@ -67,6 +92,8 @@ const Main: React.FC<Params> = (params) => {
 			<Title className="title" level="2" weight="medium">
 				Расписание на {selectedDate.format("DD.MM.YYYY")}
 				<br />({selectedSchedule?.place})
+				<br />
+				{selectedDate.locale("ru").format("dddd")}
 			</Title>
 			<Group>
 				<List className="schedule">
@@ -93,55 +120,13 @@ const Main: React.FC<Params> = (params) => {
 						);
 					})}
 				</List>
-
-				<Div className="buttons">
-					<Div className="group">
-						<Button mode="secondary" size="l">
-							ПН
-						</Button>
-						<Button mode="secondary" size="l">
-							ВТ
-						</Button>
-						<Button mode="secondary" size="l">
-							СР
-						</Button>
-					</Div>
-					<Div className="group">
-						<Button mode="secondary" size="l">
-							ЧТ
-						</Button>
-						<Button mode="secondary" size="l">
-							ПТ
-						</Button>
-						<Button mode="secondary" size="l">
-							СБ
-						</Button>
-					</Div>
-					<Div className="group">
-						<Button
-							mode="destructive"
-							size="l"
-							className="button"
-							onClick={() => {
-								selectedDate.subtract(1, "day");
-								updateSchedule();
-							}}
-						>
-							{moment(selectedDate).subtract(1, "day").format("DD.MM.YYYY")}
-						</Button>
-						<Button
-							mode="commerce"
-							size="l"
-							className="button"
-							onClick={() => {
-								selectedDate.add(1, "day");
-								updateSchedule();
-							}}
-						>
-							{moment(selectedDate).add(1, "day").format("DD.MM.YYYY")}
-						</Button>
-					</Div>
-				</Div>
+				<Keyboard
+					currentDate={selectedDate}
+					setDate={(date) => {
+						updateDate(date);
+						updateSchedule();
+					}}
+				/>
 			</Group>
 		</Div>
 	);
