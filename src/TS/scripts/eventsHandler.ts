@@ -1,5 +1,5 @@
 import { IUserData } from "./../../typings/user";
-import bridge, { VKBridge } from "@vkontakte/vk-bridge";
+import bridge from "@vkontakte/vk-bridge";
 
 import wrapper from "./wrapper";
 
@@ -22,7 +22,9 @@ const eventHandler = (setUserData: (user: IUserData) => void): void => {
 				).response[0];
 				userGroup = userData.group;
 				userRegDate = new Date(userData.reg_date);
-			} catch (error) {}
+			} catch (error) {
+				//
+			}
 
 			setUserData({
 				id: event.detail.data.id,

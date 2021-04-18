@@ -1,14 +1,10 @@
 import {
 	Div,
 	Group,
-	Avatar,
 	Title,
-	SimpleCell,
 	ScreenSpinner,
 	List,
-	Cell,
 	Text,
-	Button,
 	RichCell,
 } from "@vkontakte/vkui";
 

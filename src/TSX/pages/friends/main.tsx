@@ -3,7 +3,7 @@ import { Button, Spinner } from "@vkontakte/vkui";
 import React, { useEffect, useState } from "react";
 import Params from "../../../typings/params";
 
-const Main: React.FC<Params> = (params) => {
+const Main: React.FC<Params> = () => {
 	const [friends, updateFriends] = useState<number[]>([]);
 
 	useEffect(() => {
