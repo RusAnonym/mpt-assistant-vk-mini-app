@@ -13,6 +13,8 @@ import {
 } from "@vkontakte/vkui";
 
 import moment from "moment";
+import "moment/locale/ru";
+
 import React, { useState, useEffect } from "react";
 
 import wrapper from "../../../TS/scripts/wrapper";
@@ -25,7 +27,7 @@ import Params from "../../../typings/params";
 moment.locale("ru");
 
 const Main: React.FC<Params> = (params) => {
-	const [selectedDate, updateDate] = useState<moment.Moment>(moment());
+	const [selectedDate, setSelectedDate] = useState<moment.Moment>(moment());
 	const [selectedSchedule, setSchedule] = useState<Day>();
 	const [isLoad, setLoad] = useState<boolean>(true);
 	const [isError, setErrorStatus] = useState<boolean>(false);
@@ -60,6 +62,10 @@ const Main: React.FC<Params> = (params) => {
 		updateSchedule();
 	}, []);
 
+	useEffect(() => {
+		updateSchedule();
+	}, [selectedDate]);
+
 	if (isLoad) {
 		return <ScreenSpinner></ScreenSpinner>;
 	}
@@ -75,8 +81,8 @@ const Main: React.FC<Params> = (params) => {
 				<Keyboard
 					currentDate={selectedDate}
 					setDate={(date) => {
-						updateDate(date);
-						updateSchedule();
+						setSelectedDate(date);
+						setLoad(true);
 					}}
 				/>
 			</Div>
@@ -123,7 +129,7 @@ const Main: React.FC<Params> = (params) => {
 				<Keyboard
 					currentDate={selectedDate}
 					setDate={(date) => {
-						updateDate(date);
+						setSelectedDate(date);
 						updateSchedule();
 					}}
 				/>

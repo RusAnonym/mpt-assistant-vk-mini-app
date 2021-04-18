@@ -8,14 +8,16 @@ interface Params {
 
 const Keyboard: React.FC<Params> = ({ setDate, currentDate }) => {
 	const getNextDay = (dayNum: number): moment.Moment => {
-		const today = moment(currentDate).isoWeekday();
-		let nextDayDate: moment.Moment;
-		if (today <= dayNum) {
-			nextDayDate = moment().isoWeekday(dayNum);
+		const currentDate = new Date();
+		const targetDate = new Date();
+		const delta = dayNum - currentDate.getDay();
+		if (delta >= 0) {
+			targetDate.setDate(currentDate.getDate() + delta);
 		} else {
-			nextDayDate = moment().add(1, "weeks").isoWeekday(dayNum);
+			targetDate.setDate(currentDate.getDate() + 7 + delta);
 		}
-		return nextDayDate;
+		console.log(moment(targetDate).format("DD.MM.YYYY"));
+		return moment(targetDate);
 	};
 
 	return (
